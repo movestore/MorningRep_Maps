@@ -6,6 +6,7 @@ library('tidyverse')
 library('osmdata')
 library('ggmap')
 library('mapproj')
+library('sf')
 library('grid')
 library('gridExtra')
 
@@ -17,6 +18,11 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
   
   data_spl <- move::split(data)
   ids <- namesIndiv((data))
+  if (is.null(time_dur))
+  {
+    time_dur <- 10
+    logger.info("You did not provide a time duration for your plot. It is defaulted by 10 days.")
+  }
   time0 <- time_now - as.difftime(time_dur,units="days")
 
   g <- list()
@@ -41,6 +47,7 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
 
   gp  <- marrangeGrob(g, nrow = 1, ncol = 1)
   ggsave(paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"MorningReport_Maps.pdf"), gp, width = 21, height = 29.7, units = "cm")
+  #ggsave("MorningReport_Maps.pdf", gp, width = 21, height = 29.7, units = "cm")
 
   return(data)
 }

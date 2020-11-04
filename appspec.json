@@ -38,7 +38,10 @@
       {
         "name": "ggmap"
       },
-	        {
+	  {
+        "name": "sf"
+      },
+	  {
         "name": "mapproj"
       },
 	        {
