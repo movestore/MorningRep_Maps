@@ -31,7 +31,7 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
   for (i in seq(along=ids))
   {
     datai <- data_spl[[i]]
-    #datai_t <- datai[timestamps(datai)>time0 & timestamps(datai)<time_now]
+    datai_t <- datai[timestamps(datai)>=as.POSIXct(time0) & timestamps(datai)<=as.POSIXct(time_now),]
     #datai_t.df <- datai_t@data #as.data.frame(data)
     
     #if (length(datai_t)>0)
