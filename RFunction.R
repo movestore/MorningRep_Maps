@@ -38,18 +38,20 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
     {
       bb <- bbox(datai_t)+c(-0.1,-0.1,0.1,0.1)
       m <- get_map(bb,maptype="terrain",source="osm")
-      g[[k]] <- ggmap(m)
+      g[[k]] <- ggmap(m) +
       geom_path(data=datai_t.df,aes(x=location_long,y=location_lat),colour="orange") +
       geom_point(data=tail(datai_t.df),aes(x=location_long,y=location_lat),colour=2,size=2,pch=20) +
       labs(title = paste("individual:",ids[i])) +
       theme(plot.margin=grid::unit(c(2,2,2,2), "cm"))
       k <- k+1
         
-    } else logger.info(paste0("There are no locations available in the requested time window for individual ",ids[i]))
+    } else {
+      logger.info(paste0("There are no locations available in the requested time window for individual ",ids[i]))
+    }
   }
 
   gp  <- marrangeGrob(g, nrow = 1, ncol = 1)
-  ggsave(paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"MorningReport_Maps.pdf"), gp, width = 21, height = 29.7, units = "cm")
+  ggsave(paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"MorningReport_Maps.pdf"), plot = gp, width = 21, height = 29.7, units = "cm")
   #ggsave("MorningReport_Maps.pdf", gp, width = 21, height = 29.7, units = "cm")
 
   return(data)
