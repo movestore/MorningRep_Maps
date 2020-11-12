@@ -23,6 +23,8 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
   {
     time_dur <- 10
     logger.info("You did not provide a time duration for your plot. It is defaulted by 10 days.")
+  } else {
+    time_dur <- as.numeric(time_dur)
   }
   time0 <- time_now - as.difftime(time_dur,units="days")
 
