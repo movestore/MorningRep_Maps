@@ -41,6 +41,7 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
       m <- get_map(bb,maptype="terrain",source="osm")
       g[[k]] <- ggmap(m) +
       geom_path(data=datai_t.df,aes(x=location_long,y=location_lat),colour="orange") +
+      geom_point(data=datai_t.df,aes(x=location_long,y=location_lat),colour=4,size=2,pch=20) +
       geom_point(data=tail(datai_t.df),aes(x=location_long,y=location_lat),colour=2,size=2,pch=20) +
       labs(title = paste("individual:",ids[i])) +
       theme(plot.margin=grid::unit(c(2,2,2,2), "cm"))
