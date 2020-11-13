@@ -2,7 +2,7 @@ library(jsonlite)
 source("logger.R")
 source("RFunction.R")
 
-inputFileName = "input_test2.rds" #important to set to NULL for movebank-download
+inputFileName = "input_clemens.rds" #important to set to NULL for movebank-download
 outputFileName = "output.rds"
 
 args <- list()
@@ -21,7 +21,7 @@ args[["time_now"]] = NULL #"2014-02-15 12:00:00"
 #args[["posi_lon"]] = NULL
 #args[["posi_lat"]] = NULL
 #args[["attribs"]] = c("location_lat","tag_voltage","ground_speed")
-args[["time_dur"]] = 10
+args[["time_dur"]] = 8
 
 
 #################################################################

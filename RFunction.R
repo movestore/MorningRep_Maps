@@ -23,15 +23,16 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
   {
     time_dur <- 10
     logger.info("You did not provide a time duration for your plot. It is defaulted by 10 days.")
-  } else  time_dur <- as.numeric(time_dur)
+  } #else  time_dur <- as.numeric(time_dur)
   time0 <- time_now - as.difftime(time_dur,units="days")
 
   g <- list()
+  ids_g <- character()
   k <- 1
   for (i in seq(along=ids))
   {
     datai <- data_spl[[i]]
-    datai_t <- datai[timestamps(datai)>=as.POSIXct(time0) & timestamps(datai)<=as.POSIXct(time_now),] #diese Zeile gibt den Fehler!??? (läuft genauso aber in anderen Apps durch)
+    datai_t <- datai[timestamps(datai)>=as.POSIXct(time0) & timestamps(datai)<=as.POSIXct(time_now),]   
     datai_t.df <- datai_t@data #as.data.frame(data)
     
     if (length(datai_t)>0)
@@ -43,16 +44,18 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
       geom_point(data=tail(datai_t.df),aes(x=location_long,y=location_lat),colour=2,size=2,pch=20) +
       labs(title = paste("individual:",ids[i])) +
       theme(plot.margin=grid::unit(c(2,2,2,2), "cm"))
+      ids_g <- c(ids_g,ids[i])
       k <- k+1
-        
-    } else {
-      logger.info(paste0("There are no locations available in the requested time window for individual ",ids[i]))
-    }
+    } else logger.info(paste("There are no locations available in the requested time window for individual",ids[i]))
   }
 
-  gp  <- marrangeGrob(g, nrow = 1, ncol = 1)
-  ggsave(paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"MorningReport_Maps.pdf"), plot = gp, width = 21, height = 29.7, units = "cm")
-  #ggsave("MorningReport_Maps.pdf", gp, width = 21, height = 29.7, units = "cm")
+  if (length(ids_g)>0)
+  {
+    logger.info(paste0("Maps are produced for the individuals ",paste(ids_g,collapse=", "),", which have data in the requested time window."))
+    gp  <- marrangeGrob(g, nrow = 1, ncol = 1)
+    #ggsave(paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"MorningReport_Maps.pdf"), plot = gp, width = 21, height = 29.7, units = "cm")
+    ggsave("MorningReport_Maps.pdf", gp, width = 21, height = 29.7, units = "cm")
+  } else logger.info ("None of the individuals have data in the requested time window. Thus, no pdf artefact is generated.")
 
   return(data)
 }
