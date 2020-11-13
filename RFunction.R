@@ -53,8 +53,8 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
   {
     logger.info(paste0("Maps are produced for the individuals ",paste(ids_g,collapse=", "),", which have data in the requested time window."))
     gp  <- marrangeGrob(g, nrow = 1, ncol = 1)
-    #ggsave(paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"MorningReport_Maps.pdf"), plot = gp, width = 21, height = 29.7, units = "cm")
-    ggsave("MorningReport_Maps.pdf", gp, width = 21, height = 29.7, units = "cm")
+    ggsave(paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"MorningReport_Maps.pdf"), plot = gp, width = 21, height = 29.7, units = "cm")
+    #ggsave("MorningReport_Maps.pdf", gp, width = 21, height = 29.7, units = "cm")
   } else logger.info ("None of the individuals have data in the requested time window. Thus, no pdf artefact is generated.")
 
   return(data)
