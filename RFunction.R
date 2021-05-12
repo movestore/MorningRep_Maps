@@ -15,7 +15,7 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
   
   Sys.setenv(tz="GMT")
   
-  if (is.null(time_now)) time_now <- Sys.time() else time_now <- as.POSIXct(time_now)
+  if (is.null(time_now)) time_now <- Sys.time() else time_now <- as.POSIXct(time_now,format="%Y-%m-%dT%H:%M:%OSZ",tz="GMT")
   
   data_spl <- move::split(data)
   ids <- namesIndiv((data))
