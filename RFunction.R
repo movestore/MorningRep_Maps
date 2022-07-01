@@ -33,16 +33,25 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
   {
     datai <- data_spl[[i]]
     datai_t <- datai[timestamps(datai)>=as.POSIXct(time0) & timestamps(datai)<=as.POSIXct(time_now),]   
-    datai_t.df <- datai_t@data #as.data.frame(data)
     
     if (length(datai_t)>0)
     {
+      datai_t.df <- as.data.frame(datai_t)
+      names(datai_t.df) <- make.names(names(datai_t.df),allow_=FALSE)
+      
+      if (all(names(datai_t.df)!="location.long"))
+      {
+        coo <- data.frame(coordinates(datai_t))
+        names(coo) <- c("location.long","location.lat")
+        datai_t.df <- data.frame(as.data.frame(datai_t),coo)
+      }
+
       bb <- bbox(datai_t)+c(-0.1,-0.1,0.1,0.1)
       m <- get_map(bb,maptype="terrain",source="osm")
       g[[k]] <- ggmap(m) +
-      geom_path(data=datai_t.df,aes(x=location_long,y=location_lat),colour="orange") +
-      geom_point(data=datai_t.df,aes(x=location_long,y=location_lat),colour=4,size=2,pch=20) +
-      geom_point(data=tail(datai_t.df),aes(x=location_long,y=location_lat),colour=2,size=2,pch=20) +
+      geom_path(data=datai_t.df,aes(x=location.long,y=location.lat),colour="orange") +
+      geom_point(data=datai_t.df,aes(x=location.long,y=location.lat),colour=4,size=2,pch=20) +
+      geom_point(data=tail(datai_t.df),aes(x=location.long,y=location.lat),colour=2,size=2,pch=20) +
       labs(title = paste("individual:",ids[i])) +
       theme(plot.margin=grid::unit(c(2,2,2,2), "cm"))
       ids_g <- c(ids_g,ids[i])
