@@ -4,10 +4,10 @@ MoveApps
 Github repository: *github.com/movestore/MorningRep_Maps*
 
 ## Description
-This App creates a multipage pdf downloadable file with a (openstreet) map for each individual track for a given time duration (back). So, you can see where your animals are and have been. 
+This App creates a multipage pdf downloadable file with a (stamen terrain) map for each individual track for a given time duration (back). So, you can see where your animals are and have been. 
 
 ## Documentation
-This App plots a leaflet map for each animal that has data in the selected time interval into a downloadable multipage pdf (artefact). The reference timestamp (either user-defined or by default NOW) is used as end timestamp, the selected time duration defines the back duration of locations shown in the map(s). All positions are shown as blue points, connected by orange lines. The most recent 5 positions are highlighted in red so that the present location of the animal can easily be picked out. The openstreetmap background map shows the terrain.The map is zoomed to the tracks.
+This App plots a leaflet map for each animal that has data in the selected time interval into a downloadable multipage pdf (artefact). The reference timestamp (either user-defined or by default NOW) is used as end timestamp, the selected time duration defines the back duration of locations shown in the map(s). All positions are shown as blue points, connected by orange lines. The most recent 5 positions are highlighted in red so that the present location of the animal can easily be picked out. The stamen background map shows the terrain. The map is zoomed to the tracks.
 
 ### Input data
 moveStack in Movebank format

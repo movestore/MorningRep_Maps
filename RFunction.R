@@ -47,7 +47,7 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
       }
 
       bb <- bbox(datai_t)+c(-0.1,-0.1,0.1,0.1)
-      m <- get_map(bb,maptype="terrain",source="osm")
+      m <- get_map(bb,maptype="terrain",source="stamen")
       g[[k]] <- ggmap(m) +
       geom_path(data=datai_t.df,aes(x=location.long,y=location.lat),colour="orange") +
       geom_point(data=datai_t.df,aes(x=location.long,y=location.lat),colour=4,size=2,pch=20) +
