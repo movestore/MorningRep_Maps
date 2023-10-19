@@ -4,14 +4,14 @@ library('ggplot2')
 library('reshape2')
 library('tidyverse')
 library('osmdata')
-library('ggmap')
+library('ggmap') #needs installation from github: stadiamaps/ggmap
 library('mapproj')
 library('sf')
 library('grid')
 library('gridExtra')
 
 
-rFunction = function(time_now=NULL, time_dur=NULL, data, ...) { 
+rFunction = function(time_now=NULL, time_dur=NULL, stamen_key=NULL, data, ...) { 
   
   Sys.setenv(tz="UTC")
   
@@ -47,15 +47,24 @@ rFunction = function(time_now=NULL, time_dur=NULL, data, ...) {
       }
 
       bb <- bbox(datai_t)+c(-0.1,-0.1,0.1,0.1)
-      m <- get_map(bb,maptype="terrain",source="stamen")
-      g[[k]] <- ggmap(m) +
-      geom_path(data=datai_t.df,aes(x=location.long,y=location.lat),colour="orange") +
-      geom_point(data=datai_t.df,aes(x=location.long,y=location.lat),colour=4,size=2,pch=20) +
-      geom_point(data=tail(datai_t.df),aes(x=location.long,y=location.lat),colour=2,size=2,pch=20) +
-      labs(title = paste("individual:",ids[i])) +
-      theme(plot.margin=grid::unit(c(2,2,2,2), "cm"))
-      ids_g <- c(ids_g,ids[i])
-      k <- k+1
+      
+      if (is.null(stamen_key)) logger.info("You have not entered a stadia API key. Until MoveApps provides its OSM mirror, this is required. Register with stamen until then, it is free. Go to: https://stadiamaps.com/stamen/onboarding/create-account") else
+      {
+        register_stadiamaps(stamen_key)
+        
+        logger.info("Your stadia API key is registered.")
+        m <- get_stadiamap(bb,maptype="stamen_terrain")
+        
+        #m <- get_map(bb,maptype="terrain",source="stamen")
+        g[[k]] <- ggmap(m) +
+          geom_path(data=datai_t.df,aes(x=location.long,y=location.lat),colour="orange") +
+          geom_point(data=datai_t.df,aes(x=location.long,y=location.lat),colour=4,size=2,pch=20) +
+          geom_point(data=tail(datai_t.df),aes(x=location.long,y=location.lat),colour=2,size=2,pch=20) +
+          labs(title = paste("individual:",ids[i])) +
+          theme(plot.margin=grid::unit(c(2,2,2,2), "cm"))
+        ids_g <- c(ids_g,ids[i])
+        k <- k+1
+      }
     } else logger.info(paste("There are no locations available in the requested time window for individual",ids[i]))
   }
 

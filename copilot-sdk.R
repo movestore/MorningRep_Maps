@@ -1,8 +1,9 @@
 library(jsonlite)
+library(dotenv)
 source("logger.R")
 source("RFunction.R")
 
-inputFileName = "input_test2.rds" #important to set to NULL for movebank-download
+inputFileName = "App-Output Workflow_Instance_001__Movebank__2022-07-01_09-21-15.rds" #important to set to NULL for movebank-download
 outputFileName = "output.rds"
 
 args <- list()
@@ -15,14 +16,15 @@ args <- list()
 # The paramter must look like:
 #    args[["username"]] = "any-username"
 #    args[["password"]] = "any-password"
+load_dot_env(file='akoelzsch.env')
 
 # Add your arguments of your r function here
-args[["time_now"]] = NULL #"2014-02-15T12:00:00.000Z"
+args[["time_now"]] = "2021-11-25T12:00:00.000Z" #NULL
 #args[["posi_lon"]] = NULL
 #args[["posi_lat"]] = NULL
 #args[["attribs"]] = c("location_lat","tag_voltage","ground_speed")
 args[["time_dur"]] = 8
-
+args[["stamen_key"]] = Sys.getenv("STADIA_API")
 
 #################################################################
 #################################################################
