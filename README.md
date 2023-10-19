@@ -9,6 +9,8 @@ This App creates a multipage pdf downloadable file with a (stamen terrain) map f
 ## Documentation
 This App plots a leaflet map for each animal that has data in the selected time interval into a downloadable multipage pdf (artefact). The reference timestamp (either user-defined or by default NOW) is used as end timestamp, the selected time duration defines the back duration of locations shown in the map(s). All positions are shown as blue points, connected by orange lines. The most recent 5 positions are highlighted in red so that the present location of the animal can easily be picked out. The stamen background map shows the terrain. The map is zoomed to the tracks.
 
+Note that this visualisation requires you to enter an API key from stadia, as it uses their background maps. This is only a workaround for a few months until MoveApps provides an own OSM mirror. Register for a stadia API here, it is free: https://stadiamaps.com/stamen/onboarding/create-account.
+
 ### Input data
 moveStack in Movebank format
 
@@ -23,11 +25,15 @@ moveStack in Movebank format
 
 **Track time duration. (`time_dur`):** time duration into the past that the track has to be plotted for. So, if the time duration is selected as 5 days then the plotted track consists of all location from the reference timestamp to 5 days before it. Unit: days
 
+**Stadia API key (`stamen_key`):** For visualisation of the rest sites on map background you need to enter an API key from stadia here. Note that this is only a workaround for a few months until MoveApps provides an own OSM mirror. Register for a stadia API key here, it is free: https://stadiamaps.com/stamen/onboarding/create-account.
+
 ### Null or error handling:
 **Setting `time_now`:** If this parameter is left empty (NULL) the reference time is set to NOW. The present timestamp is extracted in UTC from the MoveApps server system.
 
 **Setting `time_dur`:** If this parameter is left empty (NULL) then by default 10 days is used. A respective warning is given.
 
 **Artefact:** If there are no locations of any animals in the defined time window, a warning is given and no pdf artefact created.
+
+**stamen_key**: Without providing an API key from stadia for using stamen maps, there will be no map pdf artifact.
 
 **Data:** The data are not manipulated in this App, but plotted in a downloadable pdf. So that a possible Workflow can be continued after this App, the input data set is returned.
