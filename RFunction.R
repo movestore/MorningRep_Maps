@@ -53,7 +53,8 @@ rFunction = function(time_now=NULL, time_dur=NULL, stamen_key=NULL, data, ...) {
         register_stadiamaps(stamen_key)
         
         logger.info("Your stadia API key is registered.")
-        m <- get_stadiamap(bb,maptype="stamen_terrain")
+        #m <- get_stadiamap(bb,maptype="stamen_terrain")
+        m <- get_map(bb,maptype="stamen_terrain",source="stadia") #zoom default is "auto"
         
         #m <- get_map(bb,maptype="terrain",source="stamen")
         g[[k]] <- ggmap(m) +
