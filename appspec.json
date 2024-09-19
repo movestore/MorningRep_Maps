@@ -1,89 +1,77 @@
 {
+  "version": "1.2",
   "settings": [
     {
-      "id": "time_now",
-      "name": "Reference time",
-      "description": "Select a reference time towards which your data are evaluated. Default is NOW.",
-      "defaultValue": null,
-      "type": "INSTANT"
-    },
-	{
-      "id": "time_dur",
-      "name": "Track time duration.",
-      "description": "Provide a time duration (in days) of how far in the past you want to plot your track(s).",
-      "defaultValue": null,
-      "type": "DOUBLE"
-    },
-	{
-      "id": "stamen_key",
-      "name": "Stadia API key",
-      "description": "For visualisation of the tracks on map background you need to enter an API key from stadia here. Note that this is only a workaround for a few months until MoveApps provides an own OSM mirror. Register for a stadia API key here, it is free: https://stadiamaps.com/stamen/onboarding/create-account.",
-      "defaultValue": null,
+      "id": "sdk",
+      "name": "The name of the MoveApps SDK",
+      "description": "Showcase requesting a string input from the users of your app.",
+      "defaultValue": "MoveApps SDK",
       "type": "STRING"
-    }	
+    },
+    {
+      "id": "year",
+      "name": "The year",
+      "description": "Insert description for the year setting setting",
+      "defaultValue": 2022,
+      "type": "INTEGER"
+    },
+    {
+      "id": "auxiliary-file-a",
+      "name": "Personalization",
+      "description": "You can personalize the app by providing a file",
+      "type": "USER_FILE"
+    }
   ],
   "dependencies": {
     "R": [
       {
-        "name": "move"
+        "name": "lubridate"
       },
       {
-        "name": "foreach"
-      },
-	        {
-        "name": "ggplot2"
-      },
-	        {
-        "name": "reshape2"
-      },
-	        {
-        "name": "tidyverse"
-      },
-	        {
-        "name": "osmdata"
-      },
-      {
-        "name": "ggmap"
-      },
-	  {
-        "name": "sf"
-      },
-	  {
-        "name": "mapproj"
-      },
-	        {
-        "name": "grid"
-      },
-	        {
-        "name": "gridExtra"
+        "name": "move2"
       }
     ]
   },
-  "createsArtifacts": true,
+  "providedAppFiles": [
+    {
+      "settingId": "auxiliary-file-a",
+      "from": "data/auxiliary/user-files/provided-app-files/auxiliary-file-a/sample.txt"
+    }
+  ],
   "license": {
     "key": "MIT"
   },
   "language": "eng",
   "keywords": [
-    "morning report",
-    "pdf",
-    "multipage",
-    "openstreepmap",
-    "map"
+    "example",
+    "template"
   ],
   "people": [
     {
-      "firstName": "Andrea",
+      "firstName": "Charles",
       "middleInitials": null,
-      "lastName": "Kölzsch",
-      "email": "akoelzsch@ab.mpg.de",
-      "roles": ["author", "creator"],
-      "orcid": "0000-0003-0193-1563",
-      "affiliation": "Max-Planck-Institute of Animal Behavior",
-      "affiliationRor": "https://ror.org/026stee22"
+      "lastName": "Darwin",
+      "email": "creator@example.com",
+      "roles": [
+        "author",
+        "creator"
+      ],
+      "orcid": null,
+      "affiliation": null,
+      "affiliationRor": null
     }
   ],
-  "documentation" : {
-    "url": "https://github.com/movestore/MorningRep_Maps/blob/master/README.md"
-  }
+  "funding": [
+    {
+      "name": "funder name",
+      "comment": "grant for App"
+    }
+  ],
+  "references": [
+    {
+      "type": "IsDescribedBy",
+      "note": "Darwin, C. 1900. The creation. Journal XY. 1-2",
+      "url": "https://anylink.xyz"
+    }
+  ]
 }

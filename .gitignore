@@ -2,8 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-.rds
-.csv
-.png
-.pdf
-akoelzsch.env
+.DS_Store
+data/output/**
+!data/output/.keep
+tests/testthat/plot.png
