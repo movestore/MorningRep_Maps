@@ -2,76 +2,85 @@
   "version": "1.2",
   "settings": [
     {
-      "id": "sdk",
-      "name": "The name of the MoveApps SDK",
-      "description": "Showcase requesting a string input from the users of your app.",
-      "defaultValue": "MoveApps SDK",
-      "type": "STRING"
+      "id": "time_now",
+      "name": "Reference time",
+      "description": "Select a reference time towards which your data are evaluated. Default is NOW.",
+      "defaultValue": null,
+      "type": "INSTANT"
+    },
+	{
+      "id": "time_dur",
+      "name": "Track time duration (days).",
+      "description": "Provide a time duration (in days) of how far in the past you want to plot your track(s). Decimals(with '.') are allowed.",
+      "defaultValue": 10,
+      "type": "DOUBLE"
+    },
+	{
+  "id": "zoominVal",
+  "name": "Resolution of background map",
+  "description":"",
+  "defaultValue": "-2",
+  "type": "RADIOBUTTONS",
+  "options": [{
+      "value": "-2",
+      "displayText": "very low"
     },
     {
-      "id": "year",
-      "name": "The year",
-      "description": "Insert description for the year setting setting",
-      "defaultValue": 2022,
-      "type": "INTEGER"
+      "value": "-1",
+      "displayText": "low"
     },
     {
-      "id": "auxiliary-file-a",
-      "name": "Personalization",
-      "description": "You can personalize the app by providing a file",
-      "type": "USER_FILE"
-    }
+      "value": "0",
+      "displayText": "high"
+    },
+    {
+      "value": "1",
+      "displayText": "very high"
+    }]
+}
   ],
   "dependencies": {
     "R": [
-      {
-        "name": "lubridate"
-      },
-      {
-        "name": "move2"
-      }
+      {"name": "move2"},
+      {"name": "dplyr"},
+      {"name": "ggspatial"},
+      {"name": "ggplot2"},
+      {"name": "gridExtra"}
     ]
   },
-  "providedAppFiles": [
-    {
-      "settingId": "auxiliary-file-a",
-      "from": "data/auxiliary/user-files/provided-app-files/auxiliary-file-a/sample.txt"
-    }
-  ],
+  
   "license": {
     "key": "MIT"
   },
   "language": "eng",
   "keywords": [
-    "example",
-    "template"
+    "morning report",
+    "pdf",
+    "multipage",
+    "openstreepmap",
+    "map",
+    "find tags"
   ],
-  "people": [
+ "people": [
     {
-      "firstName": "Charles",
+      "firstName": "Anne",
+      "middleInitials": "K",
+      "lastName": "Scharf",  
+      "email": "ascharf@ab.mpg.de",
+      "roles": ["author", "creator"],
+      "orcid": "0000-0002-3357-8533",
+      "affiliation": "Max-Planck-Institute of Animal Behavior",
+      "affiliationRor": "https://ror.org/026stee22"
+},
+{
+      "firstName": "Andrea",
       "middleInitials": null,
-      "lastName": "Darwin",
-      "email": "creator@example.com",
-      "roles": [
-        "author",
-        "creator"
-      ],
-      "orcid": null,
-      "affiliation": null,
-      "affiliationRor": null
-    }
-  ],
-  "funding": [
-    {
-      "name": "funder name",
-      "comment": "grant for App"
-    }
-  ],
-  "references": [
-    {
-      "type": "IsDescribedBy",
-      "note": "Darwin, C. 1900. The creation. Journal XY. 1-2",
-      "url": "https://anylink.xyz"
+      "lastName": "Kölzsch",
+      "email": "akoelzsch@ab.mpg.de",
+      "roles": ["contributor"],
+      "orcid": "0000-0003-0193-1563",
+      "affiliation": "Max-Planck-Institute of Animal Behavior",
+      "affiliationRor": "https://ror.org/026stee22"
     }
   ]
 }
