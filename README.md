@@ -24,7 +24,7 @@ The App should work for any kind of (location) data.
 `move2::move2_loc`
 
 ### Artefacts
-`MorningReport_Maps.pdf`: Artefact PDF with a plot of each track on a map on each page.
+`MorningReport_Maps.pdf`: PDF with a plot of a track on a map on each page.
 
 ### Settings 
 **Reference time (`time_now`):** reference timestamp towards which all analyses are performed. Generally (and by default) this is NOW, especially if in the field and looking for one or the other animal or wanting to make sure that it is still doing fine. When analysing older data sets, this parameter can be set to other timestamps so that the to be plotted data fall into a selected back-time window. 
