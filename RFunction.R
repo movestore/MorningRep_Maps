@@ -3,6 +3,7 @@ library("dplyr")
 library('ggspatial')
 library("ggplot2")
 library('gridExtra')
+library('prettymapr')
 
 
 # data <- readRDS("./data/raw/input2_move2loc_Mollweide.rds")

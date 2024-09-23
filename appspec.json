@@ -45,7 +45,8 @@
       {"name": "dplyr"},
       {"name": "ggspatial"},
       {"name": "ggplot2"},
-      {"name": "gridExtra"}
+      {"name": "gridExtra"},
+      {"name": "prettymapr"}
     ]
   },
   
