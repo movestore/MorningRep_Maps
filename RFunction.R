@@ -1,81 +1,51 @@
-library('move')
-library('foreach')
-library('ggplot2')
-library('reshape2')
-library('tidyverse')
-library('osmdata')
-library('ggmap') #needs installation from github: stadiamaps/ggmap
-library('mapproj')
-library('sf')
-library('grid')
+library("move2")
+library("dplyr")
+library('ggspatial')
+library("ggplot2")
 library('gridExtra')
+library('prettymapr')
 
 
-rFunction = function(time_now=NULL, time_dur=NULL, stamen_key=NULL, data, ...) { 
+# data <- readRDS("./data/raw/input2_move2loc_Mollweide.rds")
+# time_now <- max(mt_time(data))
+# time_dur <- 10
+
+rFunction = function(time_now=NULL, time_dur=NULL, zoominVal=NULL, data) { 
   
-  Sys.setenv(tz="UTC")
+  if (is.null(time_now)) {time_now <- Sys.time()} else {time_now <- as.POSIXct(time_now,format="%Y-%m-%dT%H:%M:%OSZ",tz="UTC")}
   
-  if (is.null(time_now)) time_now <- Sys.time() else time_now <- as.POSIXct(time_now,format="%Y-%m-%dT%H:%M:%OSZ",tz="UTC")
-  
-  data_spl <- move::split(data)
-  ids <- namesIndiv((data))
-  if (is.null(time_dur))
-  {
-    time_dur <- 10
-    logger.info("You did not provide a time duration for your plot. It is defaulted by 10 days.")
-  } #else  time_dur <- as.numeric(time_dur)
   time0 <- time_now - as.difftime(time_dur,units="days")
-
-  g <- list()
-  ids_g <- character()
-  k <- 1
-  for (i in seq(along=ids))
-  {
-    datai <- data_spl[[i]]
-    datai_t <- datai[timestamps(datai)>=as.POSIXct(time0) & timestamps(datai)<=as.POSIXct(time_now),]   
+  
+  dataPlot <-  data %>%
+    group_by(mt_track_id()) %>%
+    filter(mt_time() >= time0)
+  
+  if(nrow(dataPlot)>0){
     
-    if (length(datai_t)>0)
-    {
-      datai_t.df <- as.data.frame(datai_t)
-      names(datai_t.df) <- make.names(names(datai_t.df),allow_=FALSE)
-      
-      if (all(names(datai_t.df)!="location.long"))
-      {
-        coo <- data.frame(coordinates(datai_t))
-        names(coo) <- c("location.long","location.lat")
-        datai_t.df <- data.frame(as.data.frame(datai_t),coo)
-      }
-
-      bb <- bbox(datai_t)+c(-0.1,-0.1,0.1,0.1)
-      
-      if (is.null(stamen_key)) logger.info("You have not entered a stadia API key. Until MoveApps provides its OSM mirror, this is required. Register with stamen until then, it is free. Go to: https://stadiamaps.com/stamen/onboarding/create-account") else
-      {
-        register_stadiamaps(stamen_key)
-        
-        logger.info("Your stadia API key is registered.")
-        #m <- get_stadiamap(bb,maptype="stamen_terrain")
-        m <- get_map(bb,maptype="stamen_terrain",source="stadia") #zoom default is "auto"
-        
-        #m <- get_map(bb,maptype="terrain",source="stamen")
-        g[[k]] <- ggmap(m) +
-          geom_path(data=datai_t.df,aes(x=location.long,y=location.lat),colour="orange") +
-          geom_point(data=datai_t.df,aes(x=location.long,y=location.lat),colour=4,size=2,pch=20) +
-          geom_point(data=tail(datai_t.df),aes(x=location.long,y=location.lat),colour=2,size=2,pch=20) +
-          labs(title = paste("individual:",ids[i])) +
-          theme(plot.margin=grid::unit(c(2,2,2,2), "cm"))
-        ids_g <- c(ids_g,ids[i])
-        k <- k+1
-      }
-    } else logger.info(paste("There are no locations available in the requested time window for individual",ids[i]))
-  }
-
-  if (length(ids_g)>0)
-  {
-    logger.info(paste0("Maps are produced for the individuals ",paste(ids_g,collapse=", "),", which have data in the requested time window."))
-    gp  <- marrangeGrob(g, nrow = 1, ncol = 1)
-    ggsave(paste0(Sys.getenv(x = "APP_ARTIFACTS_DIR", "/tmp/"),"MorningReport_Maps.pdf"), plot = gp, width = 21, height = 29.7, units = "cm")
-    #ggsave("MorningReport_Maps.pdf", gp, width = 21, height = 29.7, units = "cm")
-  } else logger.info ("None of the individuals have data in the requested time window. Thus, no pdf artefact is generated.")
-
+    idall <- unique(mt_track_id(data))
+    idsel <- unique(mt_track_id(dataPlot))
+    if(!identical(idall, idsel)){logger.info(paste0("There are no locations available in the requested time window for track(s): ",paste0(idall[!idall%in%idsel], collapse = ", ")))}
+    
+    dataPlotTr <- split(dataPlot, mt_track_id(dataPlot))
+    gpL <- lapply(dataPlotTr, function(trk){
+      ggplot() +
+        ggspatial::annotation_map_tile(zoomin = as.numeric(zoominVal)) +
+        ggspatial::annotation_scale(aes(location="br")) +
+        theme_linedraw() +
+        geom_sf(data = mt_track_lines(trk),color = "black") +
+        geom_sf(data = trk,  color="black", fill = "cyan", size = 2, shape=21)+
+        geom_sf(data =slice_tail(trk,n = 5) , color="black", fill = "magenta", size =3, shape=21)+
+        geom_sf(data =slice_tail(trk,n = 1) , color="black", fill = "magenta", size = 6, shape=21)+
+        guides(color = "none")+
+        labs(title = paste("Track:",unique(mt_track_id(trk)))) #+
+      # theme(plot.margin=grid::unit(c(2,2,2,2), "cm"))
+    })
+    
+    logger.info(paste0("Maps are produced for the individuals which have data in the requested time window: ",paste0(idsel, collapse = ", ")))
+    gp <- marrangeGrob(gpL, nrow = 1, ncol = 1)
+    ggsave(file=appArtifactPath("MorningReport_Maps.pdf"), plot = gp, width = 21, height = 29.7, units = "cm")
+    
+  }else{logger.info("None of the individuals have data in the requested time window. Thus, no pdf artefact is generated.")}
+  
   return(data)
 }

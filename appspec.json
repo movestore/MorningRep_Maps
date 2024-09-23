@@ -1,4 +1,5 @@
 {
+  "version": "1.2",
   "settings": [
     {
       "id": "time_now",
@@ -9,57 +10,46 @@
     },
 	{
       "id": "time_dur",
-      "name": "Track time duration.",
-      "description": "Provide a time duration (in days) of how far in the past you want to plot your track(s).",
-      "defaultValue": null,
+      "name": "Track time duration (days).",
+      "description": "Provide a time duration (in days) of how far in the past you want to plot your track(s). Decimals(with '.') are allowed.",
+      "defaultValue": 10,
       "type": "DOUBLE"
     },
 	{
-      "id": "stamen_key",
-      "name": "Stadia API key",
-      "description": "For visualisation of the tracks on map background you need to enter an API key from stadia here. Note that this is only a workaround for a few months until MoveApps provides an own OSM mirror. Register for a stadia API key here, it is free: https://stadiamaps.com/stamen/onboarding/create-account.",
-      "defaultValue": null,
-      "type": "STRING"
-    }	
+  "id": "zoominVal",
+  "name": "Resolution of background map",
+  "description":"",
+  "defaultValue": "-2",
+  "type": "RADIOBUTTONS",
+  "options": [{
+      "value": "-2",
+      "displayText": "very low"
+    },
+    {
+      "value": "-1",
+      "displayText": "low"
+    },
+    {
+      "value": "0",
+      "displayText": "high"
+    },
+    {
+      "value": "1",
+      "displayText": "very high"
+    }]
+}
   ],
   "dependencies": {
     "R": [
-      {
-        "name": "move"
-      },
-      {
-        "name": "foreach"
-      },
-	        {
-        "name": "ggplot2"
-      },
-	        {
-        "name": "reshape2"
-      },
-	        {
-        "name": "tidyverse"
-      },
-	        {
-        "name": "osmdata"
-      },
-      {
-        "name": "ggmap"
-      },
-	  {
-        "name": "sf"
-      },
-	  {
-        "name": "mapproj"
-      },
-	        {
-        "name": "grid"
-      },
-	        {
-        "name": "gridExtra"
-      }
+      {"name": "move2"},
+      {"name": "dplyr"},
+      {"name": "ggspatial"},
+      {"name": "ggplot2"},
+      {"name": "gridExtra"},
+      {"name": "prettymapr"}
     ]
   },
-  "createsArtifacts": true,
+  
   "license": {
     "key": "MIT"
   },
@@ -69,21 +59,29 @@
     "pdf",
     "multipage",
     "openstreepmap",
-    "map"
+    "map",
+    "find tags"
   ],
-  "people": [
+ "people": [
     {
+      "firstName": "Anne",
+      "middleInitials": "K",
+      "lastName": "Scharf",  
+      "email": "ascharf@ab.mpg.de",
+      "roles": ["author", "creator"],
+      "orcid": "0000-0002-3357-8533",
+      "affiliation": "Max-Planck-Institute of Animal Behavior",
+      "affiliationRor": "https://ror.org/026stee22"
+},
+{
       "firstName": "Andrea",
       "middleInitials": null,
       "lastName": "Kölzsch",
       "email": "akoelzsch@ab.mpg.de",
-      "roles": ["author", "creator"],
+      "roles": ["contributor"],
       "orcid": "0000-0003-0193-1563",
       "affiliation": "Max-Planck-Institute of Animal Behavior",
       "affiliationRor": "https://ror.org/026stee22"
     }
-  ],
-  "documentation" : {
-    "url": "https://github.com/movestore/MorningRep_Maps/blob/master/README.md"
-  }
+  ]
 }
