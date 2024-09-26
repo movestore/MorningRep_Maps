@@ -12,6 +12,8 @@ library('prettymapr')
 
 rFunction = function(time_now=NULL, time_dur=NULL, zoominVal=NULL, data) { 
   
+  Sys.setenv(tz="UTC")
+  
   if (is.null(time_now)) {time_now <- Sys.time()} else {time_now <- as.POSIXct(time_now,format="%Y-%m-%dT%H:%M:%OSZ",tz="UTC")}
   
   time0 <- time_now - as.difftime(time_dur,units="days")
