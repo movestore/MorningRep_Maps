@@ -15,7 +15,7 @@ This App was developed for any taxonomic group. It is specially useful to locate
 
 
 #### Required data properties
-The App should work for any kind of (location) data.
+The App should work for any kind of (location) data. Specially useful for live feed data.
 
 ### Input type
 `move2::move2_loc`
